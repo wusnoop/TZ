@@ -28,29 +28,29 @@ if (isset($_POST['back'])){
                 $dates=$dates->fetchAll(PDO::FETCH_ASSOC);
 
                 $date = [];
-                $asd = [];
-                foreach ($dates as $datess=>$d) {
-                    $date[] = '"'. $d['date'].'"';
-                    $asd[] =$d['date'];
+                $sortDate = [];
+                foreach ($dates as $datess=> $dateStr) {
+                    $date[] = '"'. $dateStr['date'].'"';
+                    $sortDate[] =$dateStr['date'];
                 }
                 asort($date);
-                asort($asd);
+                asort($sortDate);
 
-                $d = implode(',', $date)
+                $dateStr = implode(',', $date)
 
                 ?>
                 <?php
 
                 $countApp = [];
-                foreach ($asd as $value){
+                foreach ($sortDate as $value){
                     $countSql = 'SELECT COUNT(*) as cnt FROM application WHERE `date` = ?';
                     $count = $pdo->prepare($countSql);
 
                     $count->execute([$value]);
-                    $c = $count->fetchAll(PDO::FETCH_ASSOC);
+                    $countConnect = $count->fetchAll(PDO::FETCH_ASSOC);
 
 
-                    foreach ($c as $v=>$value) {
+                    foreach ($countConnect as $v=> $value) {
                         $countApp[] = $value['cnt'];
 
                     }
@@ -77,7 +77,7 @@ if (isset($_POST['back'])){
                                 print: false
                             },
                             axisX: {
-                                categoricalValues: [<?=$d?>]
+                                categoricalValues: [<?=$dateStr?>]
                             },
                             tooltipSettings: {
                                 chartBound: true,
