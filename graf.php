@@ -1,5 +1,8 @@
 <?php
 require_once 'db.php';
+if (isset($_POST['back'])){
+    header('Location: index.php');
+}
 ?>
 
 <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
@@ -10,12 +13,16 @@ require_once 'db.php';
 <br><br><br>
 
 <div class="container">
+    <form action="" method="post">
+        <button type="submit" class="btn btn-danger" name="back">Назад</button>
+
+    </form>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
             <!-- График --><div id="chart">
                 <?php
-                $sql = "SELECT date FROM application";
+                $sql = "SELECT DISTINCT date FROM application";
                 $dates = $pdo->prepare($sql);
                 $dates->execute();
                 $dates=$dates->fetchAll(PDO::FETCH_ASSOC);
@@ -26,21 +33,39 @@ require_once 'db.php';
                     $date[] = '"'. $d['date'].'"';
                     $asd[] =$d['date'];
                 }
+                asort($date);
+                asort($asd);
 
                 $d = implode(',', $date)
+
                 ?>
                 <?php
 
+                $countApp = [];
+                foreach ($asd as $value){
+                    $countSql = 'SELECT COUNT(*) as cnt FROM application WHERE `date` = ?';
+                    $count = $pdo->prepare($countSql);
 
-                echo '<pre>';
-                print_r($asd);
-                echo '</pre>';
-                $countSql = "SELECT COUNT(*) FROM application WHERE date = ?";
-                $count = $pdo->prepare($countSql);
-                $c = $count->execute($asd)
+                    $count->execute([$value]);
+                    $c = $count->fetchAll(PDO::FETCH_ASSOC);
 
-                ?>
-                <!--<script>
+
+                    foreach ($c as $v=>$value) {
+                        $countApp[] = $value['cnt'];
+
+                    }
+                }
+
+                $countApp = implode(',', $countApp);
+
+
+
+
+
+
+?>
+
+                <script>
                     $(document).ready(function () {
                         $("#chart").shieldChart({
                             theme: "light",
@@ -52,7 +77,7 @@ require_once 'db.php';
                                 print: false
                             },
                             axisX: {
-                                categoricalValues: [<?/*=$d*/?>]
+                                categoricalValues: [<?=$d?>]
                             },
                             tooltipSettings: {
                                 chartBound: true,
@@ -64,11 +89,11 @@ require_once 'db.php';
                             dataSeries: [{
                                 seriesType: 'line',
                                 collectionAlias: "Количество заявок",
-                                data: [<?/*=$c*/?>]
+                                data: [<?=$countApp?>]
                             }]
                         });
                     });
-                </script>-->
+                </script>
 
             </div><!-- /.col-md-8 col-md-offset-2 -->
         </div><!-- /.row -->

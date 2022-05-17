@@ -19,7 +19,11 @@ include 'function.php';
 <nav class="navbar bg-light">
     <form class="container-fluid justify-content-start" >
         <button class="btn btn-outline-success me-2" type="button" data-bs-toggle="modal" data-bs-target="#auth">Авторизация</button>
-        <button class="btn btn-sm btn-outline-secondary" type="button">График заявок </button>
+        <div>
+
+            <a href="graf.php" ><button class="btn btn-sm btn-outline-secondary" type="button">График заявок</button></a>
+        </div>
+
     </form>
 </nav>
 
@@ -66,7 +70,7 @@ include 'function.php';
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="add">Save changes</button>
                 </form>
             </div>
@@ -87,7 +91,7 @@ include 'function.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
             </div>
             <div class="modal-body">
                 <form action="" method="post">

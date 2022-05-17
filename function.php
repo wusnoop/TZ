@@ -26,7 +26,7 @@ if (isset($_POST['add'])){
     $phone = htmlspecialchars($_POST['phone']);
     $text = htmlspecialchars($_POST['text']);
     $time = date("Y-m-d");
-    $sql = ("INSERT INTO `application` (name,email,address,phone,date ,text,flag) VALUES (?,?,?,?,?,?,?)");
+    $sql = ("INSERT INTO `application` (`name`,email,address,phone,`date` ,text,flag) VALUES (?,?,?,?,?,?,?)");
     $query = $pdo->prepare($sql);
     $query->execute([$name,$email,$address,$phone,$time,$text,0]);
     if ($query){
